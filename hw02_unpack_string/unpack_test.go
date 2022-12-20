@@ -39,6 +39,17 @@ func TestUnpackInvalidString(t *testing.T) {
 	}
 }
 
+func TestUnpackInvalidSymbols(t *testing.T) {
+	invalidStrings := []string{"3a#", "#!@#5", ")))"}
+	for _, tc := range invalidStrings {
+		tc := tc
+		t.Run(tc, func(t *testing.T) {
+			_, err := Unpack(tc)
+			require.Truef(t, errors.Is(err, ErrInvalidString), "actual error %q", err)
+		})
+	}
+}
+
 func BenchmarkUnpack(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		tests := []struct {
@@ -54,63 +65,6 @@ func BenchmarkUnpack(b *testing.B) {
 		for _, tc := range tests {
 			tc := tc
 			_, _ = Unpack(tc.input)
-		}
-	}
-}
-
-func BenchmarkUnpack2(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		tests := []struct {
-			input    string
-			expected string
-		}{
-			{input: "a4bc2d5e", expected: "aaaabccddddde"},
-			{input: "abccd", expected: "abccd"},
-			{input: "", expected: ""},
-			{input: "aaa0b", expected: "aab"},
-		}
-
-		for _, tc := range tests {
-			tc := tc
-			_, _ = Unpack2(tc.input)
-		}
-	}
-}
-
-func BenchmarkUnpack3(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		tests := []struct {
-			input    string
-			expected string
-		}{
-			{input: "a4bc2d5e", expected: "aaaabccddddde"},
-			{input: "abccd", expected: "abccd"},
-			{input: "", expected: ""},
-			{input: "aaa0b", expected: "aab"},
-		}
-
-		for _, tc := range tests {
-			tc := tc
-			_, _ = Unpack3(tc.input)
-		}
-	}
-}
-
-func BenchmarkUnpack4(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		tests := []struct {
-			input    string
-			expected string
-		}{
-			{input: "a4bc2d5e", expected: "aaaabccddddde"},
-			{input: "abccd", expected: "abccd"},
-			{input: "", expected: ""},
-			{input: "aaa0b", expected: "aab"},
-		}
-
-		for _, tc := range tests {
-			tc := tc
-			_, _ = Unpack4(tc.input)
 		}
 	}
 }
