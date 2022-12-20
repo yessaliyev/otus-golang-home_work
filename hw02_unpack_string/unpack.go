@@ -21,22 +21,17 @@ func Unpack(text string) (string, error) {
 	}
 
 	start := int32(text[0])
-
 	if start >= numStart && start <= numEnd {
 		return "", ErrInvalidString
 	}
 
 	var b strings.Builder
 	var tempChar string
-
 	newText := ""
 	var checkNum bool
 
 	for _, val := range text {
-		c1 := val >= charStart && val <= charEnd
-		c2 := val >= numStart && val <= numEnd
-
-		if !c1 && !c2 {
+		if checkSymbol(val) {
 			return "", ErrInvalidString
 		}
 
@@ -50,7 +45,6 @@ func Unpack(text string) (string, error) {
 			}
 
 			checkNum = true
-
 			count := int(val - '0')
 
 			if count == 0 {
@@ -62,7 +56,6 @@ func Unpack(text string) (string, error) {
 			}
 
 			tempChars := ""
-
 			tempChars = strings.Repeat(tempChar, count-1)
 			b.WriteString(tempChars)
 			tempChar = ""
@@ -73,4 +66,11 @@ func Unpack(text string) (string, error) {
 	}
 
 	return b.String(), nil
+}
+
+func checkSymbol(val int32) bool {
+	c1 := val >= charStart && val <= charEnd
+	c2 := val >= numStart && val <= numEnd
+
+	return !c1 && !c2
 }
