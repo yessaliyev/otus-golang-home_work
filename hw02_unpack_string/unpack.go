@@ -32,7 +32,7 @@ func validate(chars string) bool {
 
 	for _, char := range chars {
 		if char >= numStart && char <= numEnd {
-			if checkNum == true {
+			if checkNum {
 				return false
 			}
 			checkNum = true
@@ -48,7 +48,7 @@ func validate(chars string) bool {
 	return true
 }
 
-//для Unpack2
+// для Unpack2.
 func counterForSlice(chars string) int {
 	if len(chars) == 0 {
 		return 0
@@ -78,7 +78,6 @@ func Unpack(chars string) (string, error) {
 	var charSlice []string
 
 	for _, char := range chars {
-
 		if char >= charStart && char <= charEnd {
 			tempChar = string(char)
 			charSlice = append(charSlice, string(char))
@@ -104,10 +103,9 @@ func Unpack2(chars string) (string, error) {
 	}
 
 	var tempChar string
-	charSlice := make([]string, counterForSlice(chars))
+	charSlice := make([]string, 0, counterForSlice(chars))
 
 	for _, char := range chars {
-
 		if char >= charStart && char <= charEnd {
 			tempChar = string(char)
 			charSlice = append(charSlice, string(char))
@@ -142,7 +140,6 @@ func Unpack3(text string) (string, error) {
 		}
 
 		if val >= numStart && val <= numEnd {
-
 			if tempChar == "" {
 				fmt.Println("error")
 				break
@@ -187,7 +184,6 @@ func Unpack4(text string) (string, error) {
 		}
 
 		if val >= numStart && val <= numEnd {
-
 			if tempChar == "" {
 				fmt.Println("error")
 				break
