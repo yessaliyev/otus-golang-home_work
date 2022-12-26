@@ -27,7 +27,6 @@ func Unpack(text string) (string, error) {
 
 	var b strings.Builder
 	var tempChar string
-	newText := ""
 	var checkNum bool
 
 	for _, val := range text {
@@ -49,7 +48,7 @@ func Unpack(text string) (string, error) {
 
 			if count == 0 {
 				bText := b.String()
-				newText = bText[:len(bText)-len(tempChar)]
+				newText := bText[:len(bText)-len(tempChar)]
 				b.Reset()
 				b.WriteString(newText)
 				continue
