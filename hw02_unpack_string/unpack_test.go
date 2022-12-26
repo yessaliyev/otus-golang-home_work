@@ -34,6 +34,7 @@ func TestUnpackInvalidString(t *testing.T) {
 		tc := tc
 		t.Run(tc, func(t *testing.T) {
 			_, err := Unpack(tc)
+			require.ErrorIs(t, ErrInvalidString, err)
 			require.Truef(t, errors.Is(err, ErrInvalidString), "actual error %q", err)
 		})
 	}
@@ -51,20 +52,14 @@ func TestUnpackInvalidSymbols(t *testing.T) {
 }
 
 func BenchmarkUnpack(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		tests := []struct {
-			input    string
-			expected string
-		}{
-			{input: "a4bc2d5e", expected: "aaaabccddddde"},
-			{input: "abccd", expected: "abccd"},
-			{input: "", expected: ""},
-			{input: "aaa0b", expected: "aab"},
-		}
+	tests := [4]string{"a4bc2d5e", "abccd", "", "aaa0b"}
 
-		for _, tc := range tests {
-			tc := tc
-			_, _ = Unpack(tc.input)
-		}
+	for _, tc := range tests {
+		tc := tc
+		b.Run(tc, func(b *testing.B) {
+			for i := 0; i < b.N; i++ {
+				_, _ = Unpack(tc)
+			}
+		})
 	}
 }

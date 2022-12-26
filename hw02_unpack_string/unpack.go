@@ -55,8 +55,7 @@ func Unpack(text string) (string, error) {
 				continue
 			}
 
-			tempChars := ""
-			tempChars = strings.Repeat(tempChar, count-1)
+			tempChars := strings.Repeat(tempChar, count-1)
 			b.WriteString(tempChars)
 			tempChar = ""
 		} else {
