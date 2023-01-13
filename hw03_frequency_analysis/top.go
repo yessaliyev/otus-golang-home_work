@@ -18,10 +18,10 @@ func Top10(text string) []string {
 
 	data := map[string]int{}
 
-	//считаем количество слов (слово: количество)
+	// считаем количество слов (слово: количество)
 	for _, word := range s {
 		if _, ok := data[word]; ok {
-			data[word] += 1
+			data[word]++
 			continue
 		}
 
@@ -62,15 +62,15 @@ func getTopWords(words map[string]int) map[string]int {
 }
 
 /**
-Сортируем слова по количеству и лексикографический. Группирую по val
+Сортируем слова по количеству и лексикографический. Группирую по val.
 */
 func sortTopWords(words map[string]int) []string {
 	keys := make([]int, 0, len(words))
 	groupedByVal := map[int][]string{}
 	result := make([]string, 0, len(words))
 
-	//группируем слова по количеству(5 => ["ты", "что"])
-	//чтобы можно было отсортировать лексикографическом порядке
+	// группируем слова по количеству(5 => ["ты", "что"])
+	// чтобы можно было отсортировать лексикографическом порядке
 	for key, val := range words {
 		if _, ok := groupedByVal[val]; ok {
 			groupedByVal[val] = append(groupedByVal[val], key)
@@ -80,12 +80,12 @@ func sortTopWords(words map[string]int) []string {
 		groupedByVal[val] = []string{key}
 	}
 
-	//сортируем лексикографическом порядке
+	// сортируем лексикографическом порядке
 	for _, value := range groupedByVal {
 		sort.Strings(value)
 	}
 
-	//далее сортируем по ключам в порядке убывания
+	// далее сортируем по ключам в порядке убывания
 	for key := range groupedByVal {
 		keys = append(keys, key)
 	}
