@@ -32,10 +32,8 @@ func Top10(text string) []string {
 	return sortTopWords(topWords)
 }
 
-/**
-Получаем топ 10 слов по количеству.
-Получаем map, для дальнейшей сортировки.
-*/
+// Получаем топ 10 слов по количеству.
+// Получаем map, для дальнейшей сортировки.
 func getTopWords(words map[string]int) map[string]int {
 	keys := make([]string, 0, len(words))
 	topWords := map[string]int{}
@@ -61,9 +59,7 @@ func getTopWords(words map[string]int) map[string]int {
 	return topWords
 }
 
-/**
-Сортируем слова по количеству и лексикографический. Группирую по val.
-*/
+// Сортируем слова по количеству и лексикографический. Группирую по val.
 func sortTopWords(words map[string]int) []string {
 	keys := make([]int, 0, len(words))
 	groupedByVal := map[int][]string{}
