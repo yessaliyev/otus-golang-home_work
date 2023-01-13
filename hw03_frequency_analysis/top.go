@@ -23,19 +23,17 @@ func Top10(text string) []string {
 		data[word]++
 	}
 
-	topWords := getTopWords(data)
-	return sortTopWords(topWords)
+	return getTopWords(data)
 }
 
-// Получаем топ 10 слов по количеству.
-// Получаем map, для дальнейшей сортировки.
-func getTopWords(words map[string]int) map[string]int {
+func getTopWords(words map[string]int) []string {
 	keys := make([]string, 0, len(words))
-	topWords := map[string]int{}
 
 	for key := range words {
 		keys = append(keys, key)
 	}
+
+	sort.Strings(keys)
 
 	sort.SliceStable(keys, func(i, j int) bool {
 		return words[keys[i]] > words[keys[j]]
@@ -47,49 +45,7 @@ func getTopWords(words map[string]int) map[string]int {
 		to = 10
 	}
 
-	for _, k := range keys[:to] {
-		topWords[k] = words[k]
-	}
-
-	return topWords
-}
-
-// Сортируем слова по количеству и лексикографический. Группирую по val.
-func sortTopWords(words map[string]int) []string {
-	keys := make([]int, 0, len(words))
-	groupedByVal := map[int][]string{}
-	result := make([]string, 0, len(words))
-
-	// группируем слова по количеству(5 => ["ты", "что"])
-	// чтобы можно было отсортировать лексикографическом порядке
-	for key, val := range words {
-		if _, ok := groupedByVal[val]; ok {
-			groupedByVal[val] = append(groupedByVal[val], key)
-			continue
-		}
-
-		groupedByVal[val] = []string{key}
-	}
-
-	// сортируем лексикографическом порядке
-	for _, value := range groupedByVal {
-		sort.Strings(value)
-	}
-
-	// далее сортируем по ключам в порядке убывания
-	for key := range groupedByVal {
-		keys = append(keys, key)
-	}
-
-	sort.SliceStable(keys, func(i, j int) bool {
-		return keys[i] > keys[j]
-	})
-
-	for _, val := range keys {
-		result = append(result, groupedByVal[val]...)
-	}
-
-	return result
+	return keys[:to]
 }
 
 func split(r rune) bool {
