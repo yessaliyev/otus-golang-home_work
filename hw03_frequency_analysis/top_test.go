@@ -90,7 +90,7 @@ func TestTop10(t *testing.T) {
 	})
 
 	t.Run("пробелы", func(t *testing.T) {
-		expected := []string{}
+		var expected []string
 		require.Equal(t, expected, Top10("          "))
 	})
 }

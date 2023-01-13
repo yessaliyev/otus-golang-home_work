@@ -7,25 +7,20 @@ import (
 
 func Top10(text string) []string {
 	if text == "" {
-		return make([]string, 0)
+		return nil
 	}
 
 	s := strings.FieldsFunc(text, split)
 
 	if len(s) < 1 {
-		return make([]string, 0)
+		return nil
 	}
 
 	data := map[string]int{}
 
 	// считаем количество слов (слово: количество)
 	for _, word := range s {
-		if _, ok := data[word]; ok {
-			data[word]++
-			continue
-		}
-
-		data[word] = 1
+		data[word]++
 	}
 
 	topWords := getTopWords(data)
@@ -46,10 +41,10 @@ func getTopWords(words map[string]int) map[string]int {
 		return words[keys[i]] > words[keys[j]]
 	})
 
-	to := 10
+	to := len(keys)
 
-	if len(keys) < 10 {
-		to = 10 - (10 - len(keys))
+	if to > 10 {
+		to = 10
 	}
 
 	for _, k := range keys[:to] {
