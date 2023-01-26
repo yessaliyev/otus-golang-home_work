@@ -98,7 +98,7 @@ func (l *list) MoveToFront(i *ListItem) {
 		return
 	}
 
-	//обрываем связи
+	// обрываем связи
 	i.Prev.Next = i.Next
 
 	if i.Next != nil {
