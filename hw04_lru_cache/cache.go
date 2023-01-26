@@ -34,26 +34,30 @@ func (c *lruCache) Set(key Key, value interface{}) bool {
 	c.mu.RUnlock()
 
 	if !ok {
+		c.mu.Lock()
+
 		if c.queue.Len() >= c.capacity {
 			back := c.queue.Back()
 			c.queue.Remove(back)
-			c.mu.Lock()
 			delete(c.items, back.Key)
-			c.mu.Unlock()
 		}
 
 		item := c.queue.PushFront(value)
+
 		item.Key = key
 
-		c.mu.Lock()
 		c.items[key] = item
+
 		c.mu.Unlock()
 
 		return false
 	}
 
 	item.Value = value
+
+	c.mu.Lock()
 	c.queue.PushFront(item)
+	c.mu.Unlock()
 
 	return true
 }
@@ -67,7 +71,9 @@ func (c *lruCache) Get(key Key) (interface{}, bool) {
 		return nil, false
 	}
 
+	c.mu.Lock()
 	c.queue.PushFront(item)
+	c.mu.Unlock()
 
 	return item.Value, true
 }
