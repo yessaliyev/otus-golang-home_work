@@ -11,7 +11,6 @@ var ErrErrorsLimitExceeded = errors.New("errors limit exceeded")
 type Task func() error
 
 func Run(tasks []Task, n, m int) error {
-
 	if n < 1 {
 		n = 1
 	}
